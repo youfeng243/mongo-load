@@ -11,7 +11,7 @@
 app_data_config = {
     "host": "lanzhou4",
     "port": 40043,
-    "db": "app_data",
+    "db": "app_data_test",
     "username": "work",
     "password": "haizhi",
 }

@@ -18,6 +18,7 @@ import time
 import tools
 from config import sleep_time, check_period, dump_base_path, finish_status_file, download_status_file, app_data_config
 from logger import Logger
+from mongo import MongDb
 
 log = Logger("mongo-load.log").get_logger()
 
@@ -122,7 +123,23 @@ def scan_folder():
             # 判断是否文件最后修改时间被修改
 
 
+# 删除所有任务
+def remove_all_task():
+    app_data = MongDb(app_data_config['host'], app_data_config['port'], app_data_config['db'],
+                      None,
+                      None, log=log)
+
+    for table_name in app_data.collection_names():
+        app_data.drop(table_name)
+
+    log.info("删除所有表成功!")
+    exit()
+
+
 def main():
+    # 测试用
+    # remove_all_task()
+
     while True:
         start_time = time.time()
         log.info("开始执行load任务..")
