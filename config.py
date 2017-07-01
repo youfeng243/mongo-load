@@ -20,7 +20,7 @@ app_data_config = {
 sleep_time = 1800
 
 # 校验周期
-check_period = 5
+check_period = 30
 
 # 数据导出路径
 dump_path = "/home/nfs/server-download-dir/mongodb-dump/"
