@@ -23,4 +23,7 @@ sleep_time = 1800
 check_period = 30
 
 # 数据导出路径
-dump_path = "/home/nfs/server-download-dir/mongodb-dump/"
+dump_base_path = "/home/nfs/server-download-dir/mongodb-dump/"
+
+# 完成导入文件标识
+finish_status_file = "finish"
