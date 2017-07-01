@@ -12,8 +12,8 @@ app_data_config = {
     "host": "lanzhou4",
     "port": 40043,
     "db": "app_data",
-    "username": "read",
-    "password": "read",
+    "username": "work",
+    "password": "haizhi",
 }
 
 # 导出周期 半小时统计一次
@@ -27,3 +27,6 @@ dump_base_path = "/home/nfs/server-download-dir/mongodb-dump/"
 
 # 完成导入文件标识
 finish_status_file = "finish"
+
+# 下载状态文件
+download_status_file = "status.txt"
