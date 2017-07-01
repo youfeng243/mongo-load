@@ -24,17 +24,15 @@ log = Logger("mongo-load.log").get_logger()
 
 
 def run_cmd(cmd):
-    res = ''
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while True:
         line = p.stdout.readline()
-        res += line
+        log.info(line)
         if line:
             sys.stdout.flush()
         else:
             break
     p.wait()
-    return res
 
 
 # 判断是否所有的文件都已经下载完成
@@ -71,6 +69,7 @@ def get_last_time(file_path):
 def gen_finish_file(finish_status_path,
                     download_status_path,
                     full_folder_path):
+    log.info("开始生成finish文件...")
     download_file_list = get_download_file_list(download_status_path)
     with open(finish_status_path, mode="w") as p_finish_file:
         for file_name in download_file_list:
@@ -79,9 +78,13 @@ def gen_finish_file(finish_status_path,
             last_time = get_last_time(full_path)
             p_finish_file.write(file_name + " " + last_time + "\r\n")
 
+    log.info("finish 文件生成完成...")
+
 
 # 导入所有数据文件信息
 def import_all_files(path):
+    log.info("开始执行全部文件导入操作...")
+
     cmd = "./mongorestore -h {host}:{port} -d {db} {path}".format(
         host=app_data_config["host"],
         port=app_data_config["port"],
@@ -89,14 +92,16 @@ def import_all_files(path):
         path=path
     )
 
-    result = run_cmd(cmd)
-    log.info(result)
+    run_cmd(cmd)
 
 
 # 扫描目录
 def scan_folder():
+    log.info("开始扫描数据目录...")
     for period in xrange(1, check_period + 1):
         date = tools.get_one_day(period)
+
+        log.info("当前导入日期: {}".format(date))
 
         full_folder_path = dump_base_path + date
         if not os.path.exists(full_folder_path):
@@ -121,6 +126,8 @@ def scan_folder():
             continue
 
             # 判断是否文件最后修改时间被修改
+
+    log.info("数据目录扫描完成...")
 
 
 # 删除所有任务
