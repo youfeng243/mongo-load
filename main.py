@@ -24,6 +24,7 @@ log = Logger("mongo-load.log").get_logger()
 
 
 def run_cmd(cmd):
+    log.info(cmd)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while True:
         line = p.stdout.readline()
@@ -96,7 +97,7 @@ def import_all_files(path, download_file_list):
             path=full_path,
             table=collection
         )
-        log.info(cmd)
+        # log.info(cmd)
 
         run_cmd(cmd)
 
