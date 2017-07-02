@@ -123,6 +123,7 @@ def scan_folder():
             log.warn("当前不是所有文件都已经下载完成，不进行下一步检测..")
             continue
 
+        # 获得文件列表
         download_file_list = get_download_file_list(full_folder_path + "/" + download_status_file)
 
         # 判断完成状态文件是否存在 如果不存在则进行全部文件导入操作，且生成导入完成状态文件
