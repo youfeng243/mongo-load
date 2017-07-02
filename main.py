@@ -96,6 +96,7 @@ def import_all_files(path, download_file_list):
             path=full_path,
             table=collection
         )
+        log.info(cmd)
 
         run_cmd(cmd)
 
