@@ -23,10 +23,10 @@ sleep_time = 1800
 check_period = 30
 
 # 数据导出路径
-dump_base_path = "/home/nfs/server-download-dir/mongodb-dump/"
+dump_base_path = "/srv/BigData/hadoop/data1/data-sync-client/client-download-dir/mongodb-dump/"
 
 # 完成导入文件标识
-finish_status_file = "finish"
+finish_status_file = "finish.txt"
 
 # 下载状态文件
 download_status_file = "status.txt"
