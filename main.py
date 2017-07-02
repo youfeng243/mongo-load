@@ -82,22 +82,28 @@ def gen_finish_file(finish_status_path,
 
 
 # 导入所有数据文件信息
-def import_all_files(path):
+def import_all_files(path, download_file_list):
     log.info("开始执行全部文件导入操作...")
 
-    cmd = "./mongorestore -h {host}:{port} -d {db} {path}".format(
-        host=app_data_config["host"],
-        port=app_data_config["port"],
-        db=app_data_config["db"],
-        path=path
-    )
+    for file_name in download_file_list:
+        full_path = path + "/" + file_name
+        collection = file_name.split(".")[0]
 
-    run_cmd(cmd)
+        cmd = "./mongoimport -h {host}:{port} -d {db} -c {table} --upsert {path}".format(
+            host=app_data_config["host"],
+            port=app_data_config["port"],
+            db=app_data_config["db"],
+            path=full_path,
+            table=collection
+        )
+
+        run_cmd(cmd)
 
 
 # 扫描目录
 def scan_folder():
     log.info("开始扫描数据目录...")
+
     for period in xrange(1, check_period + 1):
         date = tools.get_one_day(period)
 
@@ -117,9 +123,11 @@ def scan_folder():
             log.warn("当前不是所有文件都已经下载完成，不进行下一步检测..")
             continue
 
+        download_file_list = get_download_file_list(full_folder_path + "/" + download_status_file)
+
         # 判断完成状态文件是否存在 如果不存在则进行全部文件导入操作，且生成导入完成状态文件
         if not os.path.exists(full_folder_path + "/" + finish_status_file):
-            import_all_files(full_folder_path)
+            import_all_files(full_folder_path, download_file_list)
             gen_finish_file(full_folder_path + "/" + finish_status_file,
                             full_folder_path + "/" + download_status_file,
                             full_folder_path)
