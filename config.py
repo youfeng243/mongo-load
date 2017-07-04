@@ -20,7 +20,7 @@ app_data_config = {
 sleep_time = 1800
 
 # 校验周期
-check_period = 30
+check_period = 80
 
 # 数据导出路径
 dump_base_path = "/srv/BigData/hadoop/data1/data-sync-client/client-download-dir/mongodb-dump/"
