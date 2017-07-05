@@ -87,8 +87,18 @@ def import_all_files(path, download_file_list):
     log.info("开始执行全部文件导入操作...")
 
     for file_name in download_file_list:
-        full_path = path + "/" + file_name
+        # /home/nfs/server-download/mongo-dump/2017-07-01/annual_reports.zip
+        zip_path = path + "/" + file_name
+
         collection = file_name.split(".")[0]
+        table_path = path + "/" + collection + ".json"
+
+        # 解压
+        run_cmd("unzip -o -j {zippath} -d {path}".format(
+            table=collection,
+            zippath=zip_path,
+            path=path,
+        ))
 
         username = app_data_config["username"]
         password = app_data_config["password"]
@@ -98,20 +108,24 @@ def import_all_files(path, download_file_list):
                 host=app_data_config["host"],
                 port=app_data_config["port"],
                 db=app_data_config["db"],
-                path=full_path,
+                path=table_path,
                 table=collection)
         else:
             cmd = "./mongoimport -h {host}:{port} -u {user} -p {password} -d {db} -c {table} --upsert {path}".format(
                 host=app_data_config["host"],
                 port=app_data_config["port"],
                 db=app_data_config["db"],
-                path=full_path,
+                path=table_path,
                 table=collection,
                 user=username,
                 password=password)
         # log.info(cmd)
 
+        # 导入
         run_cmd(cmd)
+
+        # 删除解压后的文件
+        run_cmd("rm -rf {path}".format(path=table_path))
 
 
 # 扫描目录
