@@ -90,13 +90,25 @@ def import_all_files(path, download_file_list):
         full_path = path + "/" + file_name
         collection = file_name.split(".")[0]
 
-        cmd = "./mongoimport -h {host}:{port} -d {db} -c {table} --upsert {path}".format(
-            host=app_data_config["host"],
-            port=app_data_config["port"],
-            db=app_data_config["db"],
-            path=full_path,
-            table=collection
-        )
+        username = app_data_config["username"]
+        password = app_data_config["password"]
+
+        if username is None or password is None:
+            cmd = "./mongoimport -h {host}:{port} -d {db} -c {table} --upsert {path}".format(
+                host=app_data_config["host"],
+                port=app_data_config["port"],
+                db=app_data_config["db"],
+                path=full_path,
+                table=collection)
+        else:
+            cmd = "./mongoimport -h {host}:{port} -u {user} -p {password} -d {db} -c {table} --upsert {path}".format(
+                host=app_data_config["host"],
+                port=app_data_config["port"],
+                db=app_data_config["db"],
+                path=full_path,
+                table=collection,
+                user=username,
+                password=password)
         # log.info(cmd)
 
         run_cmd(cmd)
