@@ -137,29 +137,29 @@ def scan_folder():
 
         log.info("当前导入日期: {}".format(date))
 
-        full_folder_path = dump_base_path + date
-        if not os.path.exists(full_folder_path):
-            log.warn("当前文件夹不存在不进行检测: {}".format(full_folder_path))
+        batch_folder_path = dump_base_path + date
+        if not os.path.exists(batch_folder_path):
+            log.warn("当前文件夹不存在不进行检测: {}".format(batch_folder_path))
             continue
 
         # 判断下载状态文件是否存在 不存在则代表没有下载完成，不需要进一步检测
-        if not os.path.exists(full_folder_path + "/" + download_status_file):
+        if not os.path.exists(batch_folder_path + "/" + download_status_file):
             continue
 
         # 根据下载文件的内容判断是否已经下载完成
-        if not download_finish(full_folder_path, full_folder_path + "/" + download_status_file):
+        if not download_finish(batch_folder_path, batch_folder_path + "/" + download_status_file):
             log.warn("当前不是所有文件都已经下载完成，不进行下一步检测..")
             continue
 
         # 获得文件列表
-        download_file_list = get_download_file_list(full_folder_path + "/" + download_status_file)
+        download_file_list = get_download_file_list(batch_folder_path + "/" + download_status_file)
 
         # 判断完成状态文件是否存在 如果不存在则进行全部文件导入操作，且生成导入完成状态文件
-        if not os.path.exists(full_folder_path + "/" + finish_status_file):
-            import_all_files(full_folder_path, download_file_list)
-            gen_finish_file(full_folder_path + "/" + finish_status_file,
-                            full_folder_path + "/" + download_status_file,
-                            full_folder_path)
+        if not os.path.exists(batch_folder_path + "/" + finish_status_file):
+            import_all_files(batch_folder_path, download_file_list)
+            gen_finish_file(batch_folder_path + "/" + finish_status_file,
+                            batch_folder_path + "/" + download_status_file,
+                            batch_folder_path)
             continue
 
             # 判断是否文件最后修改时间被修改
