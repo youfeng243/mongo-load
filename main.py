@@ -162,7 +162,7 @@ def scan_folder():
                             batch_folder_path)
             continue
 
-            # 判断是否文件最后修改时间被修改
+        # 判断是否文件最后修改时间被修改
 
     log.info("数据目录扫描完成...")
 
