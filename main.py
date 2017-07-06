@@ -132,7 +132,7 @@ def import_all_files(path, download_file_list):
 def scan_folder():
     log.info("开始扫描数据目录...")
 
-    for period in xrange(1, check_period + 1):
+    for period in xrange(check_period, 0, -1):
         date = tools.get_one_day(period)
 
         log.info("当前导入日期: {}".format(date))
