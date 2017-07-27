@@ -291,18 +291,23 @@ def main():
     # remove_all_task()
 
     while True:
-        start_time = time.time()
-        log.info("开始执行load任务..")
+        try:
+            start_time = time.time()
+            log.info("开始执行load任务..")
 
-        # 开始扫描目录
-        scan_folder()
+            # 开始扫描目录
+            scan_folder()
 
-        log.info("load任务执行完成..")
-        end_time = time.time()
-        log.info('load任务消耗时间: {t}s'.format(t=end_time - start_time))
+            log.info("load任务执行完成..")
+            end_time = time.time()
+            log.info('load任务消耗时间: {t}s'.format(t=end_time - start_time))
 
-        # 休眠时间
-        time.sleep(sleep_time)
+            # 休眠时间
+            time.sleep(sleep_time)
+        except Exception as e:
+            log.error("程序异常。。。")
+            log.exception(e)
+            time.sleep(3600)
 
 
 if __name__ == '__main__':
