@@ -235,9 +235,13 @@ def import_data(batch_folder_path):
 def scan_folder():
     log.info("开始扫描数据目录...")
 
+    # 先把日期算出来，再进行遍历，防止日期计算错误
+    date_list = list()
     for period in xrange(check_period, 0, -1):
-        date = tools.get_one_day(period)
+        date_list.append(tools.get_one_day(period))
 
+    log.info('当前需要导入的日期: {}'.format(date_list))
+    for date in date_list:
         log.info("当前导入日期: {}".format(date))
 
         batch_folder_path = dump_base_path + date
